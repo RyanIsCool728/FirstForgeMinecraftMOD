@@ -1,7 +1,11 @@
 package com.rjpfeiffer.firstmod;
 
 import com.mojang.logging.LogUtils;
+import com.rjpfeiffer.firstmod.item.ModItems;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
@@ -21,11 +25,13 @@ public class FirstMod
     private static final Logger LOGGER = LogUtils.getLogger();
     public FirstMod()
     {
+
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
-
-        MinecraftForge.EVENT_BUS.register(this);
+        ModItems.register(modEventBus);
+        MinecraftForge.EVENT_BUS.register(this); // Register event bus
+        modEventBus.addListener(this::addCreative);
 
     }
 
@@ -33,8 +39,12 @@ public class FirstMod
     {
 
     }
-    private void addCreative(CreativeModeTabEvent.BuildContents event) {
 
+    // Register addCreative as an event subscriber
+    private void addCreative(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.BLACK_OPAL);
+        }
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
