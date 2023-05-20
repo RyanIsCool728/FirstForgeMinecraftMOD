@@ -1,6 +1,7 @@
 package com.rjpfeiffer.firstmod;
 
 import com.mojang.logging.LogUtils;
+import com.rjpfeiffer.firstmod.item.ModCreativeModTabs;
 import com.rjpfeiffer.firstmod.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.CreativeModeTab;
@@ -43,6 +44,10 @@ public class FirstMod
     // Register addCreative as an event subscriber
     private void addCreative(CreativeModeTabEvent.BuildContents event) {
         if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.BLACK_OPAL);
+            event.accept(ModItems.RAW_BLACK_OPAL);
+        }
+        if (event.getTab() == ModCreativeModTabs.FIRST_TAB) {
             event.accept(ModItems.BLACK_OPAL);
             event.accept(ModItems.RAW_BLACK_OPAL);
         }
